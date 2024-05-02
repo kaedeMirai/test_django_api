@@ -23,7 +23,7 @@ class BookConsumer(WebsocketConsumer):
         """
         text_data_json = json.loads(text_data)
         action = text_data_json.get('action')
-    
+
         if action == 'retrieve':
             self.retrieve_book(text_data_json)
         if action == 'create':

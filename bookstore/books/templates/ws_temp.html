@@ -75,11 +75,13 @@
         });
     
         function updateBookList(newBooks) {
-            booksList = booksList.concat(newBooks);
+            newBooks.forEach(book => {
+                booksList.unshift(book);
+            });
             
             const booksListContainer = document.getElementById('books-list');
             booksListContainer.innerHTML = '';
-    
+        
             booksList.forEach(book => {
                 const bookItem = document.createElement('div');
                 const authors = book.author.join(', ');
@@ -94,5 +96,6 @@
                 booksListContainer.appendChild(bookItem);
             });
         }
+        
     </script>
 {% endblock %}
