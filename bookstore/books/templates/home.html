@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <h2>Навигациооная страница</h2>
+    <p>Ниже представлены ссылки на административную панель Django для управления данными, 
+        документацию API в формате OpenAPI и страница для проверки работы Websocket соединения:</p>
+    <ul>
+        <li>Административная панель: <a href="{% url 'admin:index' %}">Admin</a></li>
+        <li>Документация API: <a href="{% url 'schema-swagger-ui' %}">Swagger</a></li>
+        <li>Websocket: <a href="{% url 'ws_temp' %}">WebSocket Test</a></li>
+    </ul>
+{% endblock %}

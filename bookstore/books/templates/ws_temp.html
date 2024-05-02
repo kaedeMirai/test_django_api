@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block title %}WebScoket API{% endblock %}
+
+{% block content %}
+    <div id="create-book-form">
+        <h2>Create New Book</h2>
+        <form id="book-form">
+            <div>
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+            <div>
+                <label for="author">Author:</label>
+                <input type="text" id="author" name="author" required>
+            </div>
+            <div>
+                <label for="genre">Genre:</label>
+                <input type="text" id="genre" name="genre" required>
+            </div>
+            <div>
+                <label for="publisher">Publisher:</label>
+                <input type="text" id="publisher" name="publisher" required>
+            </div>
+            <button id="create-book-btn" type="submit">Create Book</button>
+        </form>
+    </div>
+
+    <div id="books-list">
+        <!-- Список книг. -->
+    </div>
+
+    <script>
+        console.log('WebSocket page loaded');
+    
+        const socket = new WebSocket('ws://127.0.0.1:8000/ws/books/');
+        let booksList = [];
+    
+        socket.onopen = function() {
+            socket.send(JSON.stringify({
+                action: 'retrieve',
+            }));
+        };
+    
+        socket.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            console.log('Received message:', data);
+    
+            if (data.action === 'retrieve' || data.action === 'create') {
+                updateBookList(data.books);
+            }
+        };
+    
+        socket.onclose = function(event) {
+            console.log('Connection closed:', event);
+        };
+    
+        document.getElementById('book-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const title = document.getElementById('title').value;
+            const author = document.getElementById('author').value.split(',').map(uuid => uuid.trim());
+            const genre = document.getElementById('genre').value.split(',').map(uuid => uuid.trim());
+            const publisher = document.getElementById('publisher').value;
+    
+            console.log('Book data:', {title, author, genre, publisher});
+            
+            socket.send(JSON.stringify({
+                action: 'create',
+                title: title,
+                author: author,
+                genre: genre,
+                publisher: publisher
+            }));
+        });
+    
+        function updateBookList(newBooks) {
+            booksList = booksList.concat(newBooks);
+            
+            const booksListContainer = document.getElementById('books-list');
+            booksListContainer.innerHTML = '';
+    
+            booksList.forEach(book => {
+                const bookItem = document.createElement('div');
+                const authors = book.author.join(', ');
+                const genres = book.genre.join(', ');
+                bookItem.innerHTML = `
+                    <h3>${book.title}</h3>
+                    <p>Author(s): ${authors}</p>
+                    <p>Genre(s): ${genres}</p>
+                    <p>Publisher: ${book.publishing_company}</p>
+                    <hr>
+                `;
+                booksListContainer.appendChild(bookItem);
+            });
+        }
+    </script>
+{% endblock %}
