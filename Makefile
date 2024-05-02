@@ -4,11 +4,8 @@ PYTHON = ./.venv/bin/python
 venv:
 	@rm -rf .venv || true && \
 	python3.11 -m venv .venv && \
-	.venv/bin/pip install poetry
-
-#Создание виртуального окружения и установка всех зависимостей
-build_dev:
-	${POETRY} install --no-root
+	.venv/bin/pip install poetry && \
+	${POETRY} install --no-root	
 
 #Запуск БД postgresql в докере.
 run_db:
@@ -18,9 +15,10 @@ run_db:
 run_dev:
 	${PYTHON} bookstore/manage.py runserver
 
+#запуск с помощью daphne для использования websocket
 run_dev_websocket:
 	cd bookstore/ && \
-	daphne bookstore.asgi:application
+	.${POETRY} run daphne bookstore.asgi:application
 
 #Выполнение миграций
 migrate:
