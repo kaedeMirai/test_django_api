@@ -22,15 +22,20 @@ class Book(UUIDMixin):
 
     author = models.ManyToManyField('Author', verbose_name='authors')
     genre = models.ManyToManyField('Genre', verbose_name='genres')
-    publishing_company = models.ForeignKey('Publisher', on_delete=models.CASCADE, verbose_name='publisher')
+    publishing_company = models.ForeignKey('Publisher',
+                                           on_delete=models.CASCADE,
+                                           verbose_name='publisher',
+                                           null=True,
+                                           blank=True)
 
-    publication_date = models.DateTimeField(verbose_name='date of publication')
-    
+    publication_date = models.DateField(verbose_name='date of publication',
+                                        null=True,
+                                        blank=True)
 
     class Meta:
         verbose_name = 'book'
         verbose_name_plural = 'books'
-    
+
     def __str__(self) -> str:
         return self.title
     
@@ -52,7 +57,7 @@ class Author(UUIDMixin):
 
 class Publisher(UUIDMixin):
     """
-    Модель django, которая содержит издательства.
+    Модель django, которая содержит книжные издательства.
     """
     name = models.CharField(max_length=150)
 
