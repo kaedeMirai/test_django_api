@@ -38,7 +38,7 @@ class Book(UUIDMixin):
 
     def __str__(self) -> str:
         return self.title
-    
+
 
 class Author(UUIDMixin):
     """
@@ -50,7 +50,7 @@ class Author(UUIDMixin):
     class Meta:
         verbose_name = 'author'
         verbose_name_plural = 'authors'
-    
+
     def __str__(self) -> str:
         return self.full_name
 
@@ -64,7 +64,7 @@ class Publisher(UUIDMixin):
     class Meta:
         verbose_name = 'publisher'
         verbose_name_plural = 'publishers'
-    
+
     def __str__(self) -> str:
         return self.name
 

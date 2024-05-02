@@ -7,6 +7,7 @@ def navigations(request):
     """
     return render(request, "home.html")
 
+
 def ws_temp_view(request):
     """
     Представление для рендеринга страницы с подключением к вебсокету.

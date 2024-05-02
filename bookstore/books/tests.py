@@ -41,7 +41,7 @@ class BookViewSetTestCase(TestCase):
         response = self.client.post(reverse('book-list'), data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Book.objects.count(), 2)
-    
+
     def test_create_book_with_required_fields(self):
         """
         Тест на создание книги с без обязательных полей.

@@ -2,7 +2,10 @@ from rest_framework import viewsets
 from rest_framework.pagination import PageNumberPagination
 
 from books.models import Book, Author, Publisher, Genre
-from books.api.v1.serializers import BookSerializer, AuthorSerializer, PublisherSerializer, GenreSerializer
+from books.api.v1.serializers import (BookSerializer,
+                                      AuthorSerializer,
+                                      PublisherSerializer,
+                                      GenreSerializer)
 
 
 class BasePagination(PageNumberPagination):
